@@ -5,7 +5,7 @@ import 'package:visual_notes/src/data/models/note_data.dart';
 
 import 'notes_repository.dart';
 
-class SqlNotesRepository implements VisualNotesRepository {
+class SqlNotesRepository implements NotesRepository {
   Database? _db;
 
   static const String id = 'id';
@@ -17,24 +17,24 @@ class SqlNotesRepository implements VisualNotesRepository {
   static const String table = 'notes';
 
   @override
-  Future<void> addVisualNote(NoteData visualNote) async {
-    return;
+  Future<String> addNote(NoteData visualNote) async {
+    return "";
   }
 
   @override
-  Future<void> deleteVisualNote(String id) {
+  Future<void> deleteNote(String id) {
     // TODO: implement deleteVisualNote
     throw UnimplementedError();
   }
 
   @override
-  Future<void> editeVisualNote(Note visualNote) {
+  Future<void> editeNote(Note visualNote) {
     // TODO: implement editeVisualNote
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Note>> readAllVisualNotes() {
+  Future<List<Note>> readAllNotes() {
     // TODO: implement readAllVisualNotes
     throw UnimplementedError();
   }

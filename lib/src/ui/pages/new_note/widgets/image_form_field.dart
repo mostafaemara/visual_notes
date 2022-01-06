@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import "../../../../helpers/image_helper.dart";
 
 class ImageFormField extends StatelessWidget {
   ImageFormField({Key? key, this.selectedImage, required this.onChanged})
       : super(key: key);
   final ImagePicker _picker = ImagePicker();
-  final File? selectedImage;
-  final void Function(File?) onChanged;
+  final String? selectedImage;
+  final void Function(String?) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,8 @@ class ImageFormField extends StatelessWidget {
                   ),
                   color: Theme.of(context).colorScheme.secondary,
                 )
-              : Image.file(
-                  selectedImage!,
+              : Image.memory(
+                  selectedImage!.base64ToImage(),
                   fit: BoxFit.cover,
                 ),
           height: 100,
@@ -43,7 +42,7 @@ class ImageFormField extends StatelessWidget {
     final image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
-      final _selectedImage = File(image.path);
+      final _selectedImage = await image.convertToBase64Image();
       onChanged(_selectedImage);
     }
   }

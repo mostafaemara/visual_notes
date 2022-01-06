@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:visual_notes/src/data/models/note_status.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/date_form_field.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/image_form_field.dart';
@@ -19,7 +20,7 @@ class _NoteFormState extends State<NoteForm> {
   final _formKey = GlobalKey<FormState>();
   final _dateController = TextEditingController();
   NoteStatus? _selectedStatus;
-  File? _selectedImage;
+  String? _selectedImage;
 
   final spacer = const SizedBox(
     height: 20,
@@ -63,7 +64,9 @@ class _NoteFormState extends State<NoteForm> {
             const SizedBox(
               height: 80,
             ),
-            const SubmitButton()
+            SubmitButton(
+              onPressed: _handleSubmission,
+            )
           ],
         ));
   }
@@ -76,11 +79,44 @@ class _NoteFormState extends State<NoteForm> {
     }
   }
 
-  void _selectImage(File? image) {
+  void _selectImage(String? image) {
     if (image != null) {
       setState(() {
         _selectedImage = image;
       });
     }
+  }
+
+  void _handleSubmission() {
+    _notifyUserNoneSelectedFields();
+    if (_formIsValid()) {
+      //TODO handle submission
+    }
+  }
+
+  bool _formIsValid() {
+    final formIsValid = _formKey.currentState!.validate();
+
+    return formIsValid && _selectedStatus != null && _selectedImage != null;
+  }
+
+  _notifyUserNoneSelectedFields() {
+    if (_selectedImage == null) {
+      _showWarningToast("image required, please capture one");
+    }
+    if (_selectedStatus == null) {
+      _showWarningToast("Status required, please select Status");
+    }
+  }
+
+  void _showWarningToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

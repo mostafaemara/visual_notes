@@ -34,7 +34,9 @@ dependencies:
   flutter_bloc: ^8.0.1
   get_it: ^7.2.0
   intl: ^0.17.0
-  image_picker: ^0.8.4+4  
+  image_picker: ^0.8.4+4
+  fluttertoast: ^8.0.8
+  freezed_annotation:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -44,6 +46,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  freezed: 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -6,5 +6,5 @@ import 'src/data/repositories/sql_notes_repositoryl.dart';
 final locator = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  locator.registerSingleton<VisualNotesRepository>(SqlNotesRepository());
+  locator.registerSingleton<NotesRepository>(SqlNotesRepository());
 }

@@ -19,7 +19,7 @@ class _DateFormFieldState extends State<DateFormField> {
       decoration: InputDecoration(
           suffixIcon: IconButton(
               onPressed: _handleDatePicker, icon: const Icon(Icons.date_range)),
-          hintText: "Date"),
+          hintText: "Date dd/mm/yy"),
     );
   }
 
