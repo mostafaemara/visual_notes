@@ -25,4 +25,30 @@ class NewNoteCubit extends Cubit<SubmissionState<String>> {
           failure: "Somthing went wrong Please try again"));
     }
   }
+
+  void updateNote(Note note) async {
+    try {
+      emit(const SubmissionState.submitting());
+      await _notesRepository.updateNote(note);
+
+      _notesCubit.updateNote(note);
+      emit(const SubmissionState.success());
+    } catch (e) {
+      emit(const SubmissionState.failed(
+          failure: "Somthing went wrong Please try again"));
+    }
+  }
+
+  void deleteNote(int id) async {
+    try {
+      emit(const SubmissionState.submitting());
+      final noteId = await _notesRepository.deleteNote(id);
+
+      _notesCubit.deleteNote(id);
+      emit(const SubmissionState.success());
+    } catch (e) {
+      emit(const SubmissionState.failed(
+          failure: "Somthing went wrong Please try again"));
+    }
+  }
 }

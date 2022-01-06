@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:visual_notes/injection.dart';
-
+import "../../helpers/note_list_helper.dart";
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/repositories/notes_repository.dart';
 part "notes_state.dart";
@@ -24,6 +26,16 @@ class NotesCubit extends Cubit<NotesState> {
     emit(state.copyWith(notes: notes));
   }
 
-  void updateNote(Note note) {}
-  void deleteNote(String id) {}
+  void updateNote(Note note) {
+    final notes = state.notes;
+    log("count =" + notes.length.toString());
+    notes.update(note);
+    emit(NotesState(notes: [...notes], isLoading: false));
+  }
+
+  void deleteNote(int id) {
+    final notes = state.notes;
+    notes.deleteById(id);
+    emit(state.copyWith(notes: [...notes]));
+  }
 }

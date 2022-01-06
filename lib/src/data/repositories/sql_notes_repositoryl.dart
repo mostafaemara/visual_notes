@@ -17,15 +17,26 @@ class SqlNotesRepository implements NotesRepository {
   }
 
   @override
-  Future<void> deleteNote(String id) {
-    // TODO: implement deleteVisualNote
-    throw UnimplementedError();
+  Future<void> deleteNote(int id) async {
+    try {
+      final db = await _dbHelper.db;
+      await db.delete(SqliteHelper.table, where: 'id = ?', whereArgs: [id]);
+    } catch (e) {
+      log("Delete Notes error: " + e.toString());
+      rethrow;
+    }
   }
 
   @override
-  Future<void> editeNote(Note visualNote) {
-    // TODO: implement editeVisualNote
-    throw UnimplementedError();
+  Future<void> updateNote(Note note) async {
+    try {
+      final db = await _dbHelper.db;
+      await db.update(SqliteHelper.table, note.toMap(),
+          where: 'id = ?', whereArgs: [note.id]);
+    } catch (e) {
+      log("Update Notes error: " + e.toString());
+      rethrow;
+    }
   }
 
   @override

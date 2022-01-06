@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
-
+import "../../../../helpers/datetime_helper.dart";
 import 'package:visual_notes/src/bloc/submission_state.dart';
+import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 import 'package:visual_notes/src/data/models/note_status.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/date_form_field.dart';
@@ -17,7 +18,8 @@ import 'package:visual_notes/src/validators/note_validators.dart';
 import 'loading_dialog.dart';
 
 class NoteForm extends StatefulWidget {
-  const NoteForm({Key? key}) : super(key: key);
+  const NoteForm({Key? key, this.note}) : super(key: key);
+  final Note? note;
 
   @override
   State<NoteForm> createState() => _NoteFormState();
@@ -25,9 +27,9 @@ class NoteForm extends StatefulWidget {
 
 class _NoteFormState extends State<NoteForm> {
   final _formKey = GlobalKey<FormState>();
-  final _dateController = TextEditingController();
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  late TextEditingController _dateController;
+  late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
   NoteStatus? _selectedStatus;
   String? _selectedImage;
 
@@ -45,13 +47,13 @@ class _NoteFormState extends State<NoteForm> {
             children: [
               TextFormField(
                 controller: _titleController,
-                validator: fieldValidator,
+                validator: titleValidator,
                 decoration: const InputDecoration(hintText: "Title"),
               ),
               spacer,
               TextFormField(
                 controller: _descriptionController,
-                validator: fieldValidator,
+                validator: descriptionValidator,
                 keyboardType: TextInputType.multiline,
                 minLines: 1, //Normal textInputField will be displayed
                 maxLines: 5,
@@ -110,6 +112,36 @@ class _NoteFormState extends State<NoteForm> {
             ));
   }
 
+  @override
+  void didChangeDependencies() {
+    _init();
+    super.didChangeDependencies();
+  }
+
+  void _init() {
+    if (widget.note != null) {
+      _initFieldsWithNoteValue();
+    } else {
+      _initEmptyFields();
+    }
+  }
+
+  void _initFieldsWithNoteValue() {
+    final noteData = widget.note!.data;
+    _dateController =
+        TextEditingController(text: noteData.date.formatToString());
+    _titleController = TextEditingController(text: noteData.title);
+    _descriptionController = TextEditingController(text: noteData.description);
+    _selectedImage = noteData.picture;
+    _selectedStatus = noteData.status;
+  }
+
+  void _initEmptyFields() {
+    _dateController = TextEditingController();
+    _titleController = TextEditingController();
+    _descriptionController = TextEditingController();
+  }
+
   void _handleStatusChange(NoteStatus? status) {
     if (status != null) {
       setState(() {
@@ -129,20 +161,12 @@ class _NoteFormState extends State<NoteForm> {
   void _handleSubmission() {
     _notifyUserNoneSelectedFields();
     if (_formIsValid()) {
-      final noteDate = NoteData(
-          title: _titleController.text,
-          picture: _selectedImage!,
-          description: _descriptionController.text,
-          date: DateFormat.yMd().parse(_dateController.text),
-          status: _selectedStatus!);
-      context.read<NewNoteCubit>().addNote(noteDate);
+      if (widget.note != null) {
+        _editeNote();
+      } else {
+        _addNewNote();
+      }
     }
-  }
-
-  bool _formIsValid() {
-    final formIsValid = _formKey.currentState!.validate();
-
-    return formIsValid && _selectedStatus != null && _selectedImage != null;
   }
 
   _notifyUserNoneSelectedFields() {
@@ -163,5 +187,32 @@ class _NoteFormState extends State<NoteForm> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+
+  bool _formIsValid() {
+    final formIsValid = _formKey.currentState!.validate();
+
+    return formIsValid && _selectedStatus != null && _selectedImage != null;
+  }
+
+  void _editeNote() {
+    final noteDate = NoteData(
+        title: _titleController.text,
+        picture: _selectedImage!,
+        description: _descriptionController.text,
+        date: DateFormat.yMd().parse(_dateController.text),
+        status: _selectedStatus!);
+    final note = Note(data: noteDate, id: widget.note!.id);
+    context.read<NewNoteCubit>().updateNote(note);
+  }
+
+  void _addNewNote() {
+    final noteDate = NoteData(
+        title: _titleController.text,
+        picture: _selectedImage!,
+        description: _descriptionController.text,
+        date: DateFormat.yMd().parse(_dateController.text),
+        status: _selectedStatus!);
+    context.read<NewNoteCubit>().addNote(noteDate);
   }
 }

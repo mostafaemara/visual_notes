@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
-import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
 
 class AppTheme {
   static get lightTheme {
@@ -52,7 +49,7 @@ class AppTheme {
             secondaryVariant: AppColors.violet,
             surface: AppColors.light,
             background: AppColors.light,
-            error: AppColors.light,
+            error: AppColors.red,
             onPrimary: AppColors.light,
             onSecondary: AppColors.violet,
             onSurface: AppColors.dark,

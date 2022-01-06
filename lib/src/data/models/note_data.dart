@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:visual_notes/src/helpers/note_status_helper.dart';
 
 import 'note_status.dart';
 
-class NoteData {
+class NoteData extends Equatable {
   NoteData(
       {required this.title,
       required this.picture,
@@ -37,4 +38,7 @@ class NoteData {
       "status": status.mapToString()
     };
   }
+
+  @override
+  List<Object?> get props => [title, picture, description, date, status];
 }
