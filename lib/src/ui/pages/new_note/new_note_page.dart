@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+import 'package:visual_notes/src/bloc/notes/notes_cubit.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/note_form.dart';
 
 class NewNotePage extends StatelessWidget {
@@ -7,21 +10,24 @@ class NewNotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("New Note"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            NoteForm(),
-          ],
-        )),
+    return BlocProvider(
+      create: (context) => NewNoteCubit(BlocProvider.of<NotesCubit>(context)),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("New Note"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              NoteForm(),
+            ],
+          )),
+        ),
       ),
     );
   }

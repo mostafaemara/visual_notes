@@ -1,24 +1,19 @@
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'dart:developer';
+
+import 'package:visual_notes/src/data/data_sources/sqlite_helper.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 
 import 'notes_repository.dart';
 
 class SqlNotesRepository implements NotesRepository {
-  Database? _db;
-
-  static const String id = 'id';
-  static const String title = 'title';
-  static const String picture = 'picture';
-  static const String description = 'description';
-  static const String date = 'date';
-  static const String status = 'status';
-  static const String table = 'notes';
+  final _dbHelper = SqliteHelper();
 
   @override
-  Future<String> addNote(NoteData visualNote) async {
-    return "";
+  Future<int> addNote(NoteData noteData) async {
+    final db = await _dbHelper.db;
+    final id = await db.insert(SqliteHelper.table, noteData.toMap());
+    return id;
   }
 
   @override
@@ -34,30 +29,22 @@ class SqlNotesRepository implements NotesRepository {
   }
 
   @override
-  Future<List<Note>> readAllNotes() {
-    // TODO: implement readAllVisualNotes
-    throw UnimplementedError();
-  }
-
-  void _initDb() async {
-    if (_db == null) {
-      final dbPath = await getDatabasesPath();
-      _db = await openDatabase(
-        join(dbPath, 'visual_notes.db'),
-        onCreate: (db, version) {
-          return db.execute(
-              "'CREATE TABLE $table($id INTEGER PRIMARY KEY, $title TEXT, $picture TEXT, $description TEXT, $date TEXT, $status TEXT)'");
-        },
-      );
+  Future<List<Note>> readAllNotes() async {
+    try {
+      final db = await _dbHelper.db;
+      final maps = await db.query(SqliteHelper.table);
+      return _mapListToNotes(maps);
+    } catch (e) {
+      log("readallNotes error: " + e.toString());
+      rethrow;
     }
   }
 
-  // void _closeDb() {
-  //   _db?.close();
-  // }
-
-  // void _insert(VisualNoteData data) async{
-
-  //   await _db.
-  // }
+  List<Note> _mapListToNotes(List<Map<String, dynamic>> maps) {
+    final List<Note> notes = [];
+    for (final map in maps) {
+      notes.add(Note.fromMap(map));
+    }
+    return notes;
+  }
 }

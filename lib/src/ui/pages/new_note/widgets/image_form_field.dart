@@ -39,7 +39,8 @@ class ImageFormField extends StatelessWidget {
   }
 
   void _handlePickImage() async {
-    final image = await _picker.pickImage(source: ImageSource.camera);
+    final image = await _picker.pickImage(
+        source: ImageSource.camera, maxHeight: 800, maxWidth: 600);
 
     if (image != null) {
       final _selectedImage = await image.convertToBase64Image();

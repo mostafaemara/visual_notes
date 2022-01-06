@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visual_notes/src/bloc/notes/notes_cubit.dart';
 import 'package:visual_notes/src/ui/pages/home/widgets/note_list.dart';
 
 import 'widgets/add_note_button.dart';
@@ -14,7 +16,17 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Chair Notes"),
       ),
-      body: NoteList(),
+      body: BlocBuilder<NotesCubit, NotesState>(
+        builder: (context, state) {
+          return state.isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : NoteList(
+                  notes: state.notes,
+                );
+        },
+      ),
     );
   }
 }

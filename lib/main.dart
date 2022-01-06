@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
+import 'injection.dart';
 import 'src/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  initializeDependencies();
   runApp(const MyApp());
 }

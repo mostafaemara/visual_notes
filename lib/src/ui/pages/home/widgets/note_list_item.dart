@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:visual_notes/src/data/models/note.dart';
+import "../../../../helpers/note_status_helper.dart";
+import "../../../../helpers/image_helper.dart";
+import "../../../../helpers/datetime_helper.dart";
 
 class NoteListItem extends StatelessWidget {
-  const NoteListItem({Key? key, required this.visualNote}) : super(key: key);
-  final Note visualNote;
+  const NoteListItem({Key? key, required this.note}) : super(key: key);
+  final Note note;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,8 +18,8 @@ class NoteListItem extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
             height: 60,
             width: 60,
-            child: Image.network(
-              "http://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ3mAsYa-38yGG5uSf4cB4M-tHh5jcxTdRgNIAyfuuiSJscyEEy9kK4xK4u0MkP9bKObinJ4PBIU644P6590pA",
+            child: Image.memory(
+              note.data.picture.base64ToImage(),
               fit: BoxFit.cover,
             ),
           ),
@@ -30,13 +33,13 @@ class NoteListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Title",
+                  note.data.title,
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
                       .copyWith(fontWeight: FontWeight.w600),
                 ),
-                Text("Description",
+                Text(note.data.description,
                     style: Theme.of(context).textTheme.caption!),
               ],
             ),
@@ -49,14 +52,14 @@ class NoteListItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Status",
+                  note.data.status.mapToString(),
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
                       .copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  "12:00:pm",
+                  note.data.date.formatToString(),
                   style: Theme.of(context).textTheme.caption!,
                 ),
               ],

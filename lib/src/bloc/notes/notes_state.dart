@@ -1,6 +1,7 @@
-part of 'notes_cubit.dart';
+part of "notes_cubit.dart";
 
-@immutable
-abstract class NotesState {}
-
-class NotesInitial extends NotesState {}
+@freezed
+class NotesState with _$NotesState {
+  const factory NotesState(
+      {required List<Note> notes, required bool isLoading}) = _NoteState;
+}

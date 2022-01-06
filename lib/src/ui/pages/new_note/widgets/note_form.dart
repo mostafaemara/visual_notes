@@ -1,16 +1,23 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+
+import 'package:visual_notes/src/bloc/submission_state.dart';
+import 'package:visual_notes/src/data/models/note_data.dart';
 import 'package:visual_notes/src/data/models/note_status.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/date_form_field.dart';
+import 'package:visual_notes/src/ui/pages/new_note/widgets/error_dialog.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/image_form_field.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/status_form_field.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/submit_button.dart';
 import 'package:visual_notes/src/validators/note_validators.dart';
 
+import 'loading_dialog.dart';
+
 class NoteForm extends StatefulWidget {
-  NoteForm({Key? key}) : super(key: key);
+  const NoteForm({Key? key}) : super(key: key);
 
   @override
   State<NoteForm> createState() => _NoteFormState();
@@ -19,6 +26,8 @@ class NoteForm extends StatefulWidget {
 class _NoteFormState extends State<NoteForm> {
   final _formKey = GlobalKey<FormState>();
   final _dateController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
   NoteStatus? _selectedStatus;
   String? _selectedImage;
 
@@ -28,47 +37,77 @@ class _NoteFormState extends State<NoteForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              validator: fieldValidator,
-              decoration: const InputDecoration(hintText: "Title"),
-            ),
-            spacer,
-            TextFormField(
-              validator: fieldValidator,
-              keyboardType: TextInputType.multiline,
-              minLines: 1, //Normal textInputField will be displayed
-              maxLines: 5,
-              decoration: const InputDecoration(
-                hintText: "Description",
+    return BlocListener<NewNoteCubit, SubmissionState<String>>(
+      child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                validator: fieldValidator,
+                decoration: const InputDecoration(hintText: "Title"),
               ),
-            ),
-            spacer,
-            DateFormField(
-              controller: _dateController,
-            ),
-            spacer,
-            StatusFormField(
-              onChanged: _handleStatusChange,
-              selectedStatus: _selectedStatus,
-            ),
-            spacer,
-            ImageFormField(
-              onChanged: _selectImage,
-              selectedImage: _selectedImage,
-            ),
-            const SizedBox(
-              height: 80,
-            ),
-            SubmitButton(
-              onPressed: _handleSubmission,
-            )
-          ],
-        ));
+              spacer,
+              TextFormField(
+                controller: _descriptionController,
+                validator: fieldValidator,
+                keyboardType: TextInputType.multiline,
+                minLines: 1, //Normal textInputField will be displayed
+                maxLines: 5,
+                decoration: const InputDecoration(
+                  hintText: "Description",
+                ),
+              ),
+              spacer,
+              DateFormField(
+                controller: _dateController,
+              ),
+              spacer,
+              StatusFormField(
+                onChanged: _handleStatusChange,
+                selectedStatus: _selectedStatus,
+              ),
+              spacer,
+              ImageFormField(
+                onChanged: _selectImage,
+                selectedImage: _selectedImage,
+              ),
+              const SizedBox(
+                height: 80,
+              ),
+              SubmitButton(
+                onPressed: _handleSubmission,
+              )
+            ],
+          )),
+      listener: (context, state) {
+        state.whenOrNull(
+          submitting: _showLoadingDialog,
+          failed: _showErrorDialog,
+          success: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        );
+      },
+    );
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const LoadingDialog(),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    Navigator.of(context).pop();
+    showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(
+              title: "An error occurred",
+              body: message,
+            ));
   }
 
   void _handleStatusChange(NoteStatus? status) {
@@ -90,7 +129,13 @@ class _NoteFormState extends State<NoteForm> {
   void _handleSubmission() {
     _notifyUserNoneSelectedFields();
     if (_formIsValid()) {
-      //TODO handle submission
+      final noteDate = NoteData(
+          title: _titleController.text,
+          picture: _selectedImage!,
+          description: _descriptionController.text,
+          date: DateFormat.yMd().parse(_dateController.text),
+          status: _selectedStatus!);
+      context.read<NewNoteCubit>().addNote(noteDate);
     }
   }
 
