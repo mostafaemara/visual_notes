@@ -6,7 +6,7 @@ Android and IOS Application built uisng flutter sdk to help users to add,edite,d
 ## Folder Structure
 
 
-![Folder Structure](https://github.com/mostafaemara/visual_notes/../../../../folders_structure.png)
+![Folder Structure](https://github.com/mostafaemara/visual_notes/blob/main/folders_structure.png)
 
 ### bloc
 The presenter and state management solution
