@@ -7,8 +7,8 @@ String? titleValidator(String? value) {
   if (value.isEmpty) {
     return "Required title please enter value";
   }
-  if (value.length > 30) {
-    return "title too long max char is 30";
+  if (value.length > 50) {
+    return "title too long max char is 50";
   }
 }
 
@@ -19,8 +19,8 @@ String? descriptionValidator(String? value) {
   if (value.isEmpty) {
     return "Required description please enter value";
   }
-  if (value.length > 100) {
-    return "Description is too long max char is 100";
+  if (value.length > 240) {
+    return "Description is too long max char is 240";
   }
 }
 
@@ -32,7 +32,7 @@ String? dateValidator(String? value) {
     return "please select Date";
   }
   try {
-    DateFormat.yMd().parse(value);
+    DateFormat("yyyy-MM-dd HH:mm").parse(value);
   } catch (e) {
     return "invalid Date";
   }

@@ -1,7 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 
-class Note extends Equatable {
+class Note {
   final int id;
   final NoteData data;
 
@@ -16,7 +15,4 @@ class Note extends Equatable {
   Map<String, dynamic> toMap() {
     return {"id": id, ...data.toMap()};
   }
-
-  @override
-  List<Object?> get props => throw [data, id];
 }

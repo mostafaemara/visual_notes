@@ -42,7 +42,7 @@ class NewNoteCubit extends Cubit<SubmissionState<String>> {
   void deleteNote(int id) async {
     try {
       emit(const SubmissionState.submitting());
-      final noteId = await _notesRepository.deleteNote(id);
+      await _notesRepository.deleteNote(id);
 
       _notesCubit.deleteNote(id);
       emit(const SubmissionState.success());

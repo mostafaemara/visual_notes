@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'cancel_button.dart';
+import 'confirm_delete_button.dart';
+
 class ConfirmDeleteDialog extends StatelessWidget {
   const ConfirmDeleteDialog({
     Key? key,
@@ -15,25 +18,9 @@ class ConfirmDeleteDialog extends StatelessWidget {
         "Delete",
         style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
-      actions: [
-        SizedBox(
-            height: 50,
-            width: 100,
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Delete",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.error)))),
-        SizedBox(
-            height: 50,
-            width: 100,
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Cancle"))),
+      actions: const [
+        ConfirmDeleteButton(),
+        CancleButton(),
       ],
     )
         //actions: [ElevatedButton(onPressed: () {}, child: Text("ok"))],

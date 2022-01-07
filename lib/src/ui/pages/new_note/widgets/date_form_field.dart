@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:visual_notes/src/validators/note_validators.dart';
 import "../../../../helpers/datetime_helper.dart";
 
@@ -18,19 +19,40 @@ class _DateFormFieldState extends State<DateFormField> {
       controller: widget.controller,
       decoration: InputDecoration(
           suffixIcon: IconButton(
-              onPressed: _handleDatePicker, icon: const Icon(Icons.date_range)),
-          hintText: "Date dd/mm/yy"),
+              onPressed: _handleDateTimePicker,
+              icon: const Icon(Icons.date_range)),
+          hintText: "yyyy-MM-dd HH:mm"),
     );
   }
 
-  void _handleDatePicker() async {
-    final date = await showDatePicker(
+  void _handleDateTimePicker() async {
+    var date = await _pickDate();
+
+    if (date != null) {
+      final time = await _pickTime();
+
+      if (time != null) {
+        date =
+            DateTime(date.year, date.month, date.year, time.hour, time.minute);
+        widget.controller.text = date.formatToString();
+      }
+    }
+  }
+
+  Future<DateTime?> _pickDate() async {
+    return await showDatePicker(
+        initialEntryMode: DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
+        currentDate: DateTime.now(),
+        firstDate: DateTime(2022, 1, 1, 12),
         lastDate: DateTime.now());
-    if (date != null) {
-      widget.controller.text = date.formatToString();
-    }
+  }
+
+  Future<TimeOfDay?> _pickTime() async {
+    return await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
   }
 }

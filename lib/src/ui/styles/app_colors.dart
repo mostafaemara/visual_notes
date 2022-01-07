@@ -24,23 +24,5 @@ class AppColors {
   static const red80 = Color(0xffFD5662);
   static const red = Color(0xffFD3C4A);
 
-  static const green20 = Color(0xffCFFAEA);
-  static const green40 = Color(0xff93EACA);
-  static const green60 = Color(0xff65D1AA);
-  static const green80 = Color(0xff2AB784);
-  static const green = Color(0xff2AB784);
-
-  static const yellow20 = Color(0xffFCEED4);
-  static const yellow40 = Color(0xffFCDDA1);
-  static const yellow60 = Color(0xffFCCC6F);
-  static const yellow80 = Color(0xffFCBB3C);
-  static const yellow = Color(0xffFCAC12);
-
-  static const blue20 = Color(0xffBDDCFF);
-  static const blue40 = Color(0xff8AC0FF);
-  static const blue60 = Color(0xff57A5FF);
-  static const blue80 = Color(0xff248AFF);
-  static const blue = Color(0xff0077FF);
-
   static const borderColor = Color(0xff91919F);
 }

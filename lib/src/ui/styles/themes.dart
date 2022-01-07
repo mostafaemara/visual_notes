@@ -35,7 +35,6 @@ class AppTheme {
             titleTextStyle: TextStyle(
                 color: AppColors.dark,
                 fontSize: 20,
-                fontFamily: "Inter",
                 fontWeight: FontWeight.bold)),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
@@ -54,7 +53,7 @@ class AppTheme {
             onSecondary: AppColors.violet,
             onSurface: AppColors.dark,
             onBackground: AppColors.dark,
-            onError: AppColors.dark,
+            onError: AppColors.light,
             brightness: Brightness.light));
   }
 }

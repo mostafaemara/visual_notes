@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+import 'package:visual_notes/src/ui/widgets/error_dialog.dart';
+import 'package:visual_notes/src/ui/widgets/loading_dialog.dart';
 import "../../../../helpers/datetime_helper.dart";
 import 'package:visual_notes/src/bloc/submission_state.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 import 'package:visual_notes/src/data/models/note_status.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/date_form_field.dart';
-import 'package:visual_notes/src/ui/pages/new_note/widgets/error_dialog.dart';
+
 import 'package:visual_notes/src/ui/pages/new_note/widgets/image_form_field.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/status_form_field.dart';
 import 'package:visual_notes/src/ui/pages/new_note/widgets/submit_button.dart';
 import 'package:visual_notes/src/validators/note_validators.dart';
-
-import 'loading_dialog.dart';
 
 class NoteForm extends StatefulWidget {
   const NoteForm({Key? key, this.note}) : super(key: key);
@@ -182,7 +182,7 @@ class _NoteFormState extends State<NoteForm> {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.SNACKBAR,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
         textColor: Colors.white,
@@ -211,7 +211,7 @@ class _NoteFormState extends State<NoteForm> {
         title: _titleController.text,
         picture: _selectedImage!,
         description: _descriptionController.text,
-        date: DateFormat.yMd().parse(_dateController.text),
+        date: DateFormat("yyyy-MM-dd HH:mm").parse(_dateController.text),
         status: _selectedStatus!);
     context.read<NewNoteCubit>().addNote(noteDate);
   }

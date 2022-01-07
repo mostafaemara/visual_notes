@@ -6,7 +6,8 @@ import "../../../../helpers/image_helper.dart";
 import "../../../../helpers/datetime_helper.dart";
 
 class NoteListItem extends StatelessWidget {
-  const NoteListItem({Key? key, required this.note}) : super(key: key);
+  NoteListItem({Key? key, required this.note})
+      : super(key: Key(note.id.toString()));
   final Note note;
   @override
   Widget build(BuildContext context) {

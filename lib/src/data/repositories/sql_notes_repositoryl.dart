@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:visual_notes/src/data/data_sources/sqlite_helper.dart';
+import 'package:visual_notes/src/data/repositories/sqlite_helper.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 

@@ -27,15 +27,15 @@ class NotesCubit extends Cubit<NotesState> {
   }
 
   void updateNote(Note note) {
-    final notes = state.notes;
-    log("count =" + notes.length.toString());
+    var notes = [...state.notes];
+
     notes.update(note);
-    emit(NotesState(notes: [...notes], isLoading: false));
+    emit(state.copyWith(notes: notes));
   }
 
   void deleteNote(int id) {
-    final notes = state.notes;
+    var notes = [...state.notes];
     notes.deleteById(id);
-    emit(state.copyWith(notes: [...notes]));
+    emit(state.copyWith(notes: notes));
   }
 }
