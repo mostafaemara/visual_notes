@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: const AddNoteButton(),
       appBar: AppBar(
-        title: Text("Chair Notes"),
+        title: Text("Visual Notes"),
       ),
       body: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) => NoteList(
