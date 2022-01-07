@@ -38,3 +38,13 @@ dart extensions with methods for 3rd party libraries and exisiting classes to he
    Common Widgets
 
 ## Screen Shots
+
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/1.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/2.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/3.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/4.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/5.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/6.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/7.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/8.jpeg)
+![screenshot](https://github.com/mostafaemara/visual_notes/blob/main/screen_shots/9.jpeg)
