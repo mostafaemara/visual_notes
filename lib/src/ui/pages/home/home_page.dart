@@ -17,15 +17,9 @@ class HomePage extends StatelessWidget {
         title: Text("Chair Notes"),
       ),
       body: BlocBuilder<NotesCubit, NotesState>(
-        builder: (context, state) {
-          return state.isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : NoteList(
-                  notes: state.notes,
-                );
-        },
+        builder: (context, state) => NoteList(
+          notes: state.notes,
+        ),
       ),
     );
   }
