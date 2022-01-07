@@ -7,11 +7,11 @@ import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 import 'package:visual_notes/src/data/repositories/notes_repository.dart';
 
-class NewNoteCubit extends Cubit<SubmissionState<String>> {
+class NoteCubit extends Cubit<SubmissionState<String>> {
   final _notesRepository = locator<NotesRepository>();
   final NotesCubit _notesCubit;
 
-  NewNoteCubit(this._notesCubit) : super(const SubmissionState.idle());
+  NoteCubit(this._notesCubit) : super(const SubmissionState.idle());
 
   void addNote(NoteData noteData) async {
     try {

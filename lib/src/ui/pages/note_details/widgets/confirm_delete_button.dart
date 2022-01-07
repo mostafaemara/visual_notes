@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+
+import 'package:visual_notes/src/bloc/note/note_cubit.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 
 class ConfirmDeleteButton extends StatelessWidget {
@@ -17,7 +18,7 @@ class ConfirmDeleteButton extends StatelessWidget {
       child: ElevatedButton(
           onPressed: () {
             Navigator.of(context).pop();
-            BlocProvider.of<NewNoteCubit>(context).deleteNote(noteId);
+            BlocProvider.of<NoteCubit>(context).deleteNote(noteId);
           },
           style: ElevatedButton.styleFrom(
               primary: Theme.of(context).colorScheme.error,

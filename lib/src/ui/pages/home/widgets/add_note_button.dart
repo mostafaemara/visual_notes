@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:visual_notes/src/ui/pages/new_note/new_note_page.dart';
+
+import 'package:visual_notes/src/ui/pages/note/note_page.dart';
 
 class AddNoteButton extends StatelessWidget {
   const AddNoteButton({
@@ -10,7 +11,7 @@ class AddNoteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(NewNotePage.routeName);
+        Navigator.of(context).pushNamed(NotePage.routeName);
       },
       child: const Icon(Icons.add),
     );

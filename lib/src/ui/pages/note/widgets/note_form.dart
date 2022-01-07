@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+import 'package:visual_notes/src/bloc/note/note_cubit.dart';
+
 import 'package:visual_notes/src/ui/widgets/error_dialog.dart';
 import 'package:visual_notes/src/ui/widgets/loading_dialog.dart';
 import "../../../../helpers/datetime_helper.dart";
@@ -10,12 +11,13 @@ import 'package:visual_notes/src/bloc/submission_state.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/data/models/note_data.dart';
 import 'package:visual_notes/src/data/models/note_status.dart';
-import 'package:visual_notes/src/ui/pages/new_note/widgets/date_form_field.dart';
 
-import 'package:visual_notes/src/ui/pages/new_note/widgets/image_form_field.dart';
-import 'package:visual_notes/src/ui/pages/new_note/widgets/status_form_field.dart';
-import 'package:visual_notes/src/ui/pages/new_note/widgets/submit_button.dart';
 import 'package:visual_notes/src/validators/note_validators.dart';
+
+import 'date_form_field.dart';
+import 'image_form_field.dart';
+import 'status_form_field.dart';
+import 'submit_button.dart';
 
 class NoteForm extends StatefulWidget {
   const NoteForm({Key? key, this.note}) : super(key: key);
@@ -39,7 +41,7 @@ class _NoteFormState extends State<NoteForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NewNoteCubit, SubmissionState<String>>(
+    return BlocListener<NoteCubit, SubmissionState<String>>(
       child: Form(
           key: _formKey,
           child: Column(
@@ -203,7 +205,7 @@ class _NoteFormState extends State<NoteForm> {
         date: DateFormat.yMd().parse(_dateController.text),
         status: _selectedStatus!);
     final note = Note(data: noteDate, id: widget.note!.id);
-    context.read<NewNoteCubit>().updateNote(note);
+    context.read<NoteCubit>().updateNote(note);
   }
 
   void _addNewNote() {
@@ -213,6 +215,6 @@ class _NoteFormState extends State<NoteForm> {
         description: _descriptionController.text,
         date: DateFormat("yyyy-MM-dd HH:mm").parse(_dateController.text),
         status: _selectedStatus!);
-    context.read<NewNoteCubit>().addNote(noteDate);
+    context.read<NoteCubit>().addNote(noteDate);
   }
 }

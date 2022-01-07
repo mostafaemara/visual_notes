@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visual_notes/src/bloc/note/note_cubit.dart';
 
-import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
 import 'package:visual_notes/src/bloc/submission_state.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 import 'package:visual_notes/src/helpers/datetime_helper.dart';
@@ -20,7 +20,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final note = context.read<Note>();
-    return BlocListener<NewNoteCubit, SubmissionState<String>>(
+    return BlocListener<NoteCubit, SubmissionState<String>>(
       child: SingleChildScrollView(
         child: Column(
           children: [

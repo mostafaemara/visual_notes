@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:visual_notes/src/bloc/new_note/new_note_cubit.dart';
+
+import 'package:visual_notes/src/bloc/note/note_cubit.dart';
 import 'package:visual_notes/src/bloc/notes/notes_cubit.dart';
 import 'package:visual_notes/src/data/models/note.dart';
 
@@ -20,7 +21,7 @@ class NoteDetailsPage extends StatelessWidget {
     return Provider<Note>.value(
       value: note,
       child: BlocProvider(
-        create: (context) => NewNoteCubit(BlocProvider.of<NotesCubit>(context)),
+        create: (context) => NoteCubit(BlocProvider.of<NotesCubit>(context)),
         child: Scaffold(
           appBar: AppBar(
             actions: const [
